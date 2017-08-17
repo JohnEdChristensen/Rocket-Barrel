@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour {
     Rigidbody rb;
     bool launchCall = false;
     Vector3 launchForce;
+    float YForce;
 
 
 
@@ -19,7 +20,7 @@ public class PlayerController : MonoBehaviour {
         
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
-        float YForce = Mathf.Sqrt(-2 * Physics.gravity.y * jumpHeight);
+        YForce = Mathf.Sqrt(-2 * Physics.gravity.y * jumpHeight);
         launchForce = new Vector3(0, YForce , 0);
         gameObject.GetComponentInChildren<Renderer>().enabled = false;
     }
@@ -49,24 +50,46 @@ public class PlayerController : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        
-        insideBarrel = true;
-        rb.useGravity = false;
-        gameObject.GetComponentInChildren<Renderer>().enabled = false;
-        activeBarrel = collision.gameObject;
-        loseTrigger.transform.position += new Vector3(0, 7.5f, 0);
-
+        if (collision.collider.tag == "Target")
+        {
+            insideBarrel = true;
+            rb.useGravity = false;
+            gameObject.GetComponentInChildren<Renderer>().enabled = false;
+            activeBarrel = collision.gameObject;
+            loseTrigger.transform.position += new Vector3(0, 7.5f, 0);
+            GetComponent<LevelUp>().levelCheck();
+        }
+        else if(collision.collider.tag == "Obstacle")
+        {
+            //gameObject.GetComponent<Rigidbody>().constraints = false;
+        }
         
     }
     void launch()
     {
         
+        if (activeBarrel.GetComponent<BarrelController>().rotatingBarrel == true)
+        {
+            float XVal = launchForce.y / Mathf.Tan(Mathf.Deg2Rad * activeBarrel.GetComponent<BarrelController>().getRotation());
+            launchForce = new Vector3(XVal, launchForce.y, launchForce.z);
+        }else
+        {
+            launchForce = new Vector3(0, YForce, 0);
+        }
         insideBarrel = false;
         gameObject.GetComponentInChildren<Renderer>().enabled = true;
         rb.useGravity = true;
         rb.velocity = launchForce;
         FindObjectOfType<AudioManager>().Play("Explode");
-        activeBarrel.GetComponent<BarrelSlide>().launched();
+        activeBarrel.GetComponent<BarrelController>().launched();
+        float ZRotation = 0;
+        if(activeBarrel.transform.rotation.eulerAngles.z != 180f)
+        {
+            ZRotation = activeBarrel.transform.rotation.eulerAngles.z;
+        }
+        transform.rotation = Quaternion.Euler(0, 0, ZRotation);
 
     }
+    
+    
 }

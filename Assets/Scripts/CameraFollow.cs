@@ -8,7 +8,7 @@ public class CameraFollow : MonoBehaviour
     public float smoothSpeed = 0.0125f;
     public float resetSpeed = 2f;
     public Vector3 offset;
-    Vector3 lastPosition;
+    public Vector3 startPos;
     Vector3 desiredPosition;
 
     private void FixedUpdate()
@@ -17,11 +17,10 @@ public class CameraFollow : MonoBehaviour
         if (GameObject.FindWithTag("Player") != null)
         {
             desiredPosition = target.position + offset;
-            lastPosition = target.position;
         }
         else
         {
-            desiredPosition = lastPosition + offset;
+            desiredPosition = startPos;
         }
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
         transform.position = new Vector3(transform.position.x, smoothedPosition.y, smoothedPosition.z);
