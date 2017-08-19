@@ -8,13 +8,20 @@ public class GameManager : MonoBehaviour {
     public string sceneName;
     public float delay = 0.125f;
     public float adDelay = 1f;
+   
     public GameObject character;
     public GameObject earth;
     public GameObject scoreScreen;
 
+    void Awake()
+    {
+        QualitySettings.vSyncCount = 0;  // VSync must be disabled
+        Application.targetFrameRate = 45;
+    }
     private void Start()
     {
         scoreScreen.SetActive(false);
+       
     }
     public void onLoseTrigger()
     {
@@ -53,5 +60,5 @@ public class GameManager : MonoBehaviour {
     {
         gameObject.GetComponent<AdManager>().ShowRewardedAd();
     }
-    
+   
 }

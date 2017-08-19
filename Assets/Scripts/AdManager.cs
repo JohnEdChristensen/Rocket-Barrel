@@ -29,6 +29,7 @@ public class AdManager : MonoBehaviour
         {
             case ShowResult.Finished:
                 Debug.Log("Ad Showed");
+                playsWithoutAd = 0;
                 PlayerPrefs.SetInt("PlaysWithoutAd", 0);
                 break;
             case ShowResult.Skipped:
@@ -46,4 +47,16 @@ public class AdManager : MonoBehaviour
         
         PlayerPrefs.SetInt("PlaysWithoutAd", playsWithoutAd + 1);
     }
+    public void checkIfSkipped()
+    {
+        if(playsWithoutAd >= 2 && Advertisement.IsReady("rewardedVideo"))
+        {
+            ShowRewardedAd();
+        }
+        else
+        {
+            GetComponent<GameManager>().StartGame();
+        }
+    }
+
 }

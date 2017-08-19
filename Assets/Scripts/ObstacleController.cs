@@ -5,11 +5,14 @@ using UnityEngine;
 public class ObstacleController : MonoBehaviour {
     public GameObject character;
 
-    public float max;
-    public float min;
+    public float max = 2;
+    public float min = -2;
+    public float rotateSpeed = 1;
 
-    float asteroidSpeed;
+    public float asteroidSpeed;
     float asteroidStartTime;
+
+    Vector3 axis;
 
     bool notHit = true;
 	void Start () {
@@ -18,13 +21,14 @@ public class ObstacleController : MonoBehaviour {
 
         asteroidSpeed = Random.Range(currentLevelVars.asteroidSpeedMin, currentLevelVars.asteroidSpeedMax);
         asteroidStartTime = Random.Range(0, max - min);
+        
     }
 	
 	void Update () {
         if (notHit)
         {
             transform.position = new Vector3(Mathf.PingPong(Time.time * asteroidSpeed + asteroidStartTime, max - min) + min, transform.position.y, transform.position.z);
-
+            transform.Rotate(Vector3.up, Time.deltaTime * rotateSpeed);
         }
 	}
 

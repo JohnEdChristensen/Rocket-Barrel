@@ -11,6 +11,11 @@ public class MenuManager : MonoBehaviour
     public GameObject MenuCanvas;
     public string gameSceneName;
 
+    void Awake()
+    {
+        QualitySettings.vSyncCount = 0;  // VSync must be disabled
+        Application.targetFrameRate = 45;
+    }
     public void StartClick()
     {
        earth.GetComponent<EarthController>().desiredPosition = earth.GetComponent<EarthController>().startPos;

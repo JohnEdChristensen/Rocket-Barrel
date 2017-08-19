@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelUp : MonoBehaviour {
+    [Range(0, 1f)]
+    public float coinChance = 0.1f;
     public int currentLevel = 0;
     public Levels[] levels;
     [System.Serializable]

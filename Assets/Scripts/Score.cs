@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Score : MonoBehaviour {
-
     public Text scoreTextInGame;
     public Text scoreTextEndGame;
     public Text highScoreText;
@@ -12,13 +11,15 @@ public class Score : MonoBehaviour {
     public int score;
     float oldHeight;
     float height;
+ 
 
 	void Start () {
         scoreTextInGame.text = "0";
         oldHeight = 0;
-	}
+    }
 	
 	void Update () {
+      
         height = gameObject.transform.position.y;
 
         if(height > oldHeight)
@@ -27,6 +28,7 @@ public class Score : MonoBehaviour {
             scoreTextInGame.text = score.ToString();
         }
         oldHeight = height;
+       
 
 	}
     public void setEndScore()

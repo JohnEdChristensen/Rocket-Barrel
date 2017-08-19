@@ -7,7 +7,9 @@ public class BarrelController : MonoBehaviour {
     public GameObject explosion;
     public GameObject character;
     public GameObject asteroid;
+    public GameObject coin;
     GameObject currentAsteroid;
+    GameObject currentCoin;
 
     public float min = -2f;
     public float max = 2f;
@@ -27,6 +29,7 @@ public class BarrelController : MonoBehaviour {
     public bool rotatingSliding = false;
     public bool activeBarrel = false;
     public bool middleObstacle = false;
+    public bool hasCoin = false;
     //manage
     bool rotate = false;
     GameObject pastExplosion;
@@ -40,6 +43,8 @@ public class BarrelController : MonoBehaviour {
         rotatingBarrel = randomParamater(currentLevelVars.rotatingChance);
         rotatingSliding = randomParamater(currentLevelVars.slidingRotatingChance);
         middleObstacle = randomParamater(currentLevelVars.middleObstacleChance);
+        hasCoin = randomParamater(character.GetComponent<LevelUp>().coinChance);
+
 
         if (randomPosition)
         {
@@ -59,6 +64,11 @@ public class BarrelController : MonoBehaviour {
             Vector3 asteroidPosition = new Vector3(Random.Range(min, max), transform.position.y - (barrelDistance / 2), transform.position.z);
             currentAsteroid = Instantiate(asteroid, asteroidPosition, Random.rotation);
         }
+        if (hasCoin)
+        {
+            Vector3 coinPosition = new Vector3(transform.position.x, transform.position.y - (barrelDistance / 4), transform.position.z);
+            currentCoin = Instantiate(coin, coinPosition, Random.rotation);
+        }
         
     }
     void FixedUpdate()
@@ -67,7 +77,12 @@ public class BarrelController : MonoBehaviour {
         {
             if (!rotatingBarrel || rotatingSliding || !activeBarrel)
             {
+            
                 transform.position = new Vector3(Mathf.PingPong(Time.time * speed + startTime, max - min) + min, transform.position.y, transform.position.z);
+               if (currentCoin)
+                {
+                    currentCoin.transform.position = new Vector3(transform.position.x, transform.position.y - (barrelDistance / 4), transform.position.z);
+                }
             }
             if (rotate)
             {
@@ -106,6 +121,10 @@ public class BarrelController : MonoBehaviour {
         if (middleObstacle)
         {
             Destroy(currentAsteroid);
+        }
+        if (currentCoin)
+        {
+            Destroy(currentCoin, 1f);
         }
         Destroy(gameObject);
     }
