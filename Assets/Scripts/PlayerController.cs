@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     public float jumpHeight = 8f;
+    public GameManager gameManager;
     public GameObject activeBarrel;
     public GameObject loseTrigger;
     public bool insideBarrel;
@@ -57,7 +58,7 @@ public class PlayerController : MonoBehaviour {
             gameObject.GetComponentInChildren<Renderer>().enabled = false;
             activeBarrel = collision.gameObject;
             loseTrigger.transform.position += new Vector3(0, 7.5f, 0);
-            GetComponent<LevelUp>().levelCheck();
+            gameManager.GetComponent<DifficultyManager>().levelCheck();
         }
         else if(collision.collider.tag == "Obstacle")
         {

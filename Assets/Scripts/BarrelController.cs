@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BarrelController : MonoBehaviour {
-
+    public GameManager gameManager;
     public GameObject explosion;
     public GameObject character;
     public GameObject asteroid;
@@ -36,14 +36,14 @@ public class BarrelController : MonoBehaviour {
  
     private void Start()
     {
-        int currentLevel = character.GetComponent<LevelUp>().currentLevel;
-        LevelUp.Levels currentLevelVars = character.GetComponent<LevelUp>().levels[currentLevel];
+        int currentLevel = gameManager.GetComponent<DifficultyManager>().currentLevel;
+        DifficultyManager.Levels currentLevelVars = gameManager.GetComponent<DifficultyManager>().levels[currentLevel];
 
         randomSpeed = currentLevelVars.randomSpeed;
         rotatingBarrel = randomParamater(currentLevelVars.rotatingChance);
         rotatingSliding = randomParamater(currentLevelVars.slidingRotatingChance);
         middleObstacle = randomParamater(currentLevelVars.middleObstacleChance);
-        hasCoin = randomParamater(character.GetComponent<LevelUp>().coinChance);
+        hasCoin = randomParamater(gameManager.GetComponent<DifficultyManager>().coinChance);
 
 
         if (randomPosition)

@@ -16,8 +16,8 @@ public class ObstacleController : MonoBehaviour {
 
     bool notHit = true;
 	void Start () {
-        int currentLevel = character.GetComponent<LevelUp>().currentLevel;
-        LevelUp.Levels currentLevelVars = character.GetComponent<LevelUp>().levels[currentLevel];
+        int currentLevel = character.GetComponent<DifficultyManager>().currentLevel;
+        DifficultyManager.Levels currentLevelVars = character.GetComponent<DifficultyManager>().levels[currentLevel];
 
         asteroidSpeed = Random.Range(currentLevelVars.asteroidSpeedMin, currentLevelVars.asteroidSpeedMax);
         asteroidStartTime = Random.Range(0, max - min);

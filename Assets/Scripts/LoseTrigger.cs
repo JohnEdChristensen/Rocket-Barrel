@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LoseTrigger : MonoBehaviour {
-    public
+    public GameManager gameManager;
 
 	void OnTriggerEnter(Collider collider)
     {
         if (collider.tag == "Player")
         {
             FindObjectOfType<GameManager>().onLoseTrigger();
-            collider.GetComponentInParent<Score>().setEndScore();
+            gameManager.GetComponentInParent<Score>().setEndScore();
         }
     }
 }
